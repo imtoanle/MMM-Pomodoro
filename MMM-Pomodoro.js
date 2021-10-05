@@ -1,12 +1,12 @@
 /* Some code snippets of this file were copied from the default alert module https://github.com/MichMich/MagicMirror/tree/development/modules/default/alert */
 
-Module.register("MMM-StopwatchTimer", {
+Module.register("MMM-Pomodoro", {
 defaults: {
 	animation: true
 },
 
 getStyles: function() {
-	return ["notificationFX.css", "font-awesome.css"];
+	return ["MMM-Pomodoro.css"];
 },
 
 start: function() {
@@ -19,41 +19,41 @@ notificationReceived: function(notification, payload, sender) {
     case "START_TIMER":
 		this.minutes = Math.floor(payload / 60);
 		this.seconds = (payload % 60);
-		this.initialiseStopwatchTimer(true);
+		this.initialisePomodoro(true);
 		break
-	case "INTERRUPT_STOPWATCHTIMER":
+	case "INTERRUPT_POMODORO":
 		this.minutes = -1;
 		this.seconds = -1;
-		clearInterval(this.stopwatchTimer);
+		clearInterval(this.pomodoro);
 		this.removeOverlay();
 	  	break
-	case "PAUSE_STOPWATCHTIMER":
-		clearInterval(this.stopwatchTimer);
+	case "PAUSE_POMODORO":
+		clearInterval(this.pomodoro);
 		break
 	case "UNPAUSE_TIMER":
 		if(this.minutes > -1 && this.seconds > -1) {
-			this.initialiseStopwatchTimer(true);
+			this.initialisePomodoro(true);
 		}
 		break
 	case "START_STOPWATCH":
 		this.minutes = 0;
 		this.seconds = 0;
-		this.initialiseStopwatchTimer(false);
+		this.initialisePomodoro(false);
 		break
 	case "UNPAUSE_STOPWATCH":
 		if(this.minutes > -1 && this.seconds > -1) {
-			this.initialiseStopwatchTimer(false);
+			this.initialisePomodoro(false);
 		}
   }
 },
 
-initialiseStopwatchTimer: function(isCounter){
-	clearInterval(this.stopwatchTimer);
+initialisePomodoro: function(isCounter){
+	clearInterval(this.pomodoro);
 	if(this.isVisible) {
     	this.removeOverlay();
     }
     this.createOverlay();
-    this.stopwatchTimer = setInterval(()=>{
+    this.pomodoro = setInterval(()=>{
 	if(isCounter) {
 	  	this.createTimer()
 	} else {
@@ -100,10 +100,18 @@ displayMessageNoPopup: function(message) {
   }
 },
 
+endingSound: function(soundName) {
+	let sound = new Audio();
+	sound.src = `modules/MMM-Pomodoro/sounds/${soundName}.wav`;
+	sound.play();
+},
+
 createTimer: function() {
 		if(this.minutes == 0 && this.seconds == 0){
 			this.decreaseTime();
 			this.displayMessageNoPopup('Done');
+			this.endingSound("pomodoro");
+			// this.sendSocketNotification("MMM-Pomodoro-SAVEDATA", { time: new Date });
 			setTimeout(() => {
 				this.removeOverlay()
 			}, 3000);

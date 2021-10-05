@@ -1,4 +1,4 @@
-# Module: StopwatchTimer :hourglass_flowing_sand:
+# Module: Pomodoro :hourglass_flowing_sand:
 With this MagicMirror module you can display an alert-style timer or stopwatch on your mirror. The timer and stopwatch can be controlled via notifications or by using the [MM-Remote android app](https://github.com/Klettner/MM-Remote) :iphone:.  
 
 ![](Timer.gif)
@@ -14,19 +14,19 @@ cd ~/MagicMirror/modules
 ```
 Then clone this git repository:
 ```
-git clone https://github.com/Klettner/MMM-StopwatchTimer.git
+git clone https://github.com/Klettner/MMM-Pomodoro.git
 ```
 You can update this module by using
 ```
 git pull
 ```
-in the MMM-StopwatchTimer folder.
+in the MMM-Pomodoro folder.
   
 To use this module you also need to add it to the **config/config.js** file
 ```
 modules: [
   {
-    module: 'MMM-StopwatchTimer',
+    module: 'MMM-Pomodoro',
     config: {
       animation: true,
     },
@@ -38,11 +38,11 @@ The following notifications can be used to control this module:
 | **Notification** | **Description** |
 |------------------|-----------------|
 | ``` START_TIMER ``` | Starts a x-seconds timer. You need to specify the amount of seconds in the payload |
-| ``` PAUSE_STOPWATCHTIMER ``` | Pauses the currently running timer or stopwatch. It will still be displayed on the screen |
+| ``` PAUSE_POMODORO ``` | Pauses the currently running timer or stopwatch. It will still be displayed on the screen |
 | ``` UNPAUSE_TIMER ``` | If the timer was paused previously it will continue |
 | ``` START_STOPWATCH ``` | The stopwatch starts running |
 | ``` UNPAUSE_STOPWATCH ``` | If the stopwatch was paused previously it will continue |
-| ``` INTERRUPT_STOPWATCHTIMER ``` | The mirror will stop displaying the timer or stopwatch which is currently shown |
+| ``` INTERRUPT_POMODORO ``` | The mirror will stop displaying the timer or stopwatch which is currently shown |
 
 ## Configuration options ##
 The following options can be configured in the config.js file:
