@@ -50,11 +50,11 @@ Module.register("MMM-Pomodoro", {
 		if(notification === "MMM-Pomodoro-SAVEDATA") {
 			
 			switch(payload.next_type) {
-				case "relax-30":
-					this.displayMessageNoPopup("Do you want to long relax (30 mins) ?");
+				case "long-relax":
+					this.displayMessageNoPopup("Do you want to long relax ?");
 					break
-				case "relax-5":
-					this.displayMessageNoPopup("Do you want to relax 5 mins ?");
+				case "short-relax":
+					this.displayMessageNoPopup("Do you want to short relax ?");
 					break
 				case "pomodoro":
 					this.displayMessageNoPopup("Do you want to start another pomodoro ?");
@@ -80,14 +80,14 @@ Module.register("MMM-Pomodoro", {
 	agreeClicked: function(type) {
 		return function() {
 			switch(type) {
-				case "relax-30":
-					self.startTimer(30, type);
+				case "long-relax":
+					self.startTimer(self.config.longRelaxTime, type);
 					break
-				case "relax-5":
-					self.startTimer(5, type);
+				case "short-relax":
+					self.startTimer(self.config.shortRelaxTime, type);
 					break
 				case "pomodoro":
-					self.startTimer(25, type);
+					self.startTimer(self.config.pomodoroTime, type);
 			}
 		};
 	},

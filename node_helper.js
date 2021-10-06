@@ -83,19 +83,19 @@ module.exports = NodeHelper.create({
     if (todayCycles[0].type != "pomodoro") {
       return "pomodoro";
     } else {
-      let recentPomodoroCycles = todayCycles.filter( x => x.type == "pomodoro" || x.type == "relax-30" ).slice(0, 4);
+      let recentPomodoroCycles = todayCycles.filter( x => x.type == "pomodoro" || x.type == "long-relax" ).slice(0, 4);
 
       for (var i = 0; i < recentPomodoroCycles.length - 1; i++) {
         let diffTime = Math.abs(Date.parse(recentPomodoroCycles[i].time) - Date.parse(recentPomodoroCycles[i+1].time));
         if (diffTime > 15*60*1000) {
-          return "relax-5";
+          return "short-relax";
         }
       }
   
       if (recentPomodoroCycles.filter( x => x.type == "pomodoro").length == 4) {
-        return "relax-30";
+        return "long-relax";
       } else {
-        return "relax-5";
+        return "short-relax";
       }
     }
   },
