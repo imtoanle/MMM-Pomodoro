@@ -4,7 +4,10 @@ var self;
 
 Module.register("MMM-Pomodoro", {
 	defaults: {
-		animation: true
+		animation: true,
+		longRelaxTime: 30*60,
+		shortRelaxTime: 5*60,
+		pomodoroTime: 25*60
 	},
 
 	getStyles: function() {
@@ -44,7 +47,10 @@ Module.register("MMM-Pomodoro", {
 			if (this.isVisible && this.nextType) {
 				self.agreeClicked(this.nextType)();
 			} else {
-				this.startTimer(payload.seconds, payload.type);
+				if (payload)
+					this.startTimer(payload.seconds, payload.type);
+				else
+				this.startTimer(this.config.pomodoroTime, "pomodoro");
 			}
 			break
 		case "INTERRUPT_POMODORO":
