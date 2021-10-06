@@ -42,7 +42,7 @@ Module.register("MMM-Pomodoro", {
 		switch(notification) {
 			case "START_TIMER":
 			if (this.isVisible && this.nextType) {
-				this.agreeClicked(this.nextType);
+				self.agreeClicked(this.nextType)();
 			} else {
 				this.startTimer(payload.seconds, payload.type);
 			}

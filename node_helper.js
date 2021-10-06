@@ -28,7 +28,6 @@ module.exports = NodeHelper.create({
 			// Send notification
       this.sendSocketNotification("MMM-Pomodoro-SAVEDATA", this.returnPayload());
 		} else if (notification === "MMM-Pomodoro-UPDATEDOM") {
-      console.log("Di vao helper");
       let data = this.readData();
       let lastCompleted = data.today.reverse()[0];
 
