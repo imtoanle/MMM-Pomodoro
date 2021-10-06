@@ -36,7 +36,7 @@
   margin-right: auto;
   margin-left: auto;
   top: 40%;
-  width: 40%;
+  width: 30%;
   height: auto;
   word-wrap: break-word;
   border-radius: 20px;
@@ -308,3 +308,4 @@
   font-weight: bold;
   color: #fff;
 }
+.pomodoro-section .pomodoro-info { margin-right: 20px;}

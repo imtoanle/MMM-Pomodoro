@@ -11,10 +11,30 @@ Module.register("MMM-Pomodoro", {
 		return ["MMM-Pomodoro.css"];
 	},
 
+	getDom: function() {
+		// create element wrapper for show into the module
+		var wrapper = document.createElement("div");
+
+		if (this.dataNotification) {
+			var wrapperDataNotification = document.createElement("div");
+			wrapperDataNotification.className = "medium";
+			wrapperDataNotification.innerHTML = `Today Pomodoro <span class="bright">${this.dataNotification.todayPomodoro}</span>`;
+			if (this.dataNotification.lastCompleted) {
+				wrapperDataNotification.innerHTML += `. Last from <span class="bright">${this.dataNotification.lastCompleted}</span>`;
+			}
+			wrapper.appendChild(wrapperDataNotification);
+		}
+
+		return wrapper;
+	},
+
 	start: function() {
 		self = this;
+		this.dataNotification = null;
 		this.isVisible = false;
 		this.firstMessage = true;
+
+		self.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {});
 	},
 
 	notificationReceived: function(notification, payload, sender) {
@@ -47,21 +67,27 @@ Module.register("MMM-Pomodoro", {
 
 	// socketNotificationReceived from helper
 	socketNotificationReceived: function (notification, payload) {
-		if(notification === "MMM-Pomodoro-SAVEDATA") {
-			
+		if (notification === "MMM-Pomodoro-SAVEDATA") {
 			switch(payload.next_type) {
 				case "long-relax":
+					this.endingSound("pomodoro");
 					this.displayMessageNoPopup("Do you want to long relax ?");
 					break
 				case "short-relax":
+					this.endingSound("pomodoro");
 					this.displayMessageNoPopup("Do you want to short relax ?");
 					break
 				case "pomodoro":
+					this.endingSound("relax");
 					this.displayMessageNoPopup("Do you want to start another pomodoro ?");
 			}
 
 			this.displayMessageNoPopup('Yes', 'width-20', true, this.agreeClicked(payload.next_type));
 			this.displayMessageNoPopup('No', 'width-20', true, this.disagreeClicked);
+			self.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {});
+		} else if (notification === "MMM-Pomodoro-UPDATEDOM") {
+			this.dataNotification = payload;
+			this.updateDom();
 		}
 	},
 
@@ -146,7 +172,7 @@ Module.register("MMM-Pomodoro", {
 		isAppended = typeof isAppended !== 'undefined' ? isAppended : false;
 
 		let child = document.createElement("div");
-		child.className = `${additionClasses} alert-box ns-alert ns-growl ns-effect-jelly ns-type-notice ns-show`;
+		child.className = `${additionClasses} alert-box ns-alert ns-growl ns-effect-jelly ns-type-notice`;
 		child.innerHTML = `<div class="ns-box-inner"><span class='regular normal medium'>${message}</span></div>`;
 		child.onclick = callback;
 		if (isAppended) {
@@ -171,7 +197,6 @@ Module.register("MMM-Pomodoro", {
 	createTimer: function(pomodoroType) {
 			if(this.minutes == 0 && this.seconds == 0){
 				this.decreaseTime();
-				this.endingSound("pomodoro");
 				this.sendSocketNotification("MMM-Pomodoro-SAVEDATA", { type: pomodoroType, time: new Date });
 				// setTimeout(() => {
 				// 	this.removeOverlay()

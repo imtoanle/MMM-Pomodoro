@@ -27,22 +27,16 @@ module.exports = NodeHelper.create({
 			// console.log("Working notification system. Notification:", notification, "payload: ", payload);
 			// Send notification
       this.sendSocketNotification("MMM-Pomodoro-SAVEDATA", this.returnPayload());
-		}
-	},
+		} else if (notification === "MMM-Pomodoro-UPDATEDOM") {
+      console.log("Di vao helper");
+      let data = this.readData();
+      let lastCompleted = data.today.reverse()[0];
 
-	// this you can create extra routes for your module
-	extraRoutes: function() {
-		var self = this;
-		this.expressApp.get("/MMM-Pomodoro/extra_route", function(req, res) {
-			// call another function
-			values = self.anotherFunction();
-			res.send(values);
-		});
-	},
-
-	// Test another function
-	anotherFunction: function() {
-		return {date: new Date()};
+      this.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {
+        todayPomodoro: data.today.length,
+        lastCompleted: lastCompleted && (new Date(lastCompleted.time)).toLocaleString()
+      });
+    }
 	},
 
   readData: function(){
@@ -107,5 +101,5 @@ module.exports = NodeHelper.create({
       today_cycle: data.today.length,
       next_type: this.detectNextCycleType()
     }
-  }
+  },
 });
