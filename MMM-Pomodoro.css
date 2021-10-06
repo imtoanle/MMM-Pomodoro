@@ -29,7 +29,7 @@
   z-index: 3;
   color: white;
   font-size: 100%;
-  position: fixed;
+  position: unset;
   text-align: center;
   right: 0;
   left: 0;
@@ -272,3 +272,39 @@
   }
 }
 
+.pomodoro-section {
+  position: relative;
+  top: 40% !important;
+}
+
+.pomodoro-section .alert-box {
+  border-style: solid;
+  border-color: #fff;
+  padding: 17px;
+  line-height: 1.4;
+  margin-bottom: 10px;
+  z-index: 3;
+  color: white;
+  font-size: 100%;
+  position: relative;
+  text-align: center;
+  right: 0;
+  left: 0;
+  margin-right: auto;
+  margin-left: auto;
+  top: calc(40% - 4rem);
+  width: 60%;
+  height: auto;
+  word-wrap: break-word;
+  border-radius: 20px;
+}
+
+.pomodoro-section .width-20 {
+  width: 20% !important;
+}
+
+.pomodoro-section .watch-number .ns-box-inner span {
+  font-size: 3.25rem;
+  font-weight: bold;
+  color: #fff;
+}
