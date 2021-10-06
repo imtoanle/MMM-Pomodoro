@@ -82,15 +82,15 @@ Module.register("MMM-Pomodoro", {
 			switch(payload.next_type) {
 				case "long-relax":
 					this.endingSound("pomodoro");
-					this.displayMessageNoPopup("Do you want to long relax ?");
+					this.displayMessageNoPopup("Do you take a longer break ?");
 					break
 				case "short-relax":
 					this.endingSound("pomodoro");
-					this.displayMessageNoPopup("Do you want to short relax ?");
+					this.displayMessageNoPopup("Do you take a short break ?");
 					break
 				case "pomodoro":
 					this.endingSound("relax");
-					this.displayMessageNoPopup("Do you want to start another pomodoro ?");
+					this.displayMessageNoPopup("Do you want another pomodoro ?");
 			}
 
 			this.displayMessageNoPopup('Yes', 'width-20', true, this.agreeClicked(payload.next_type));
