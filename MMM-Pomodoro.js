@@ -32,6 +32,7 @@ Module.register("MMM-Pomodoro", {
 		self = this;
 		this.dataNotification = null;
 		this.isVisible = false;
+		this.nextType = null;
 		this.firstMessage = true;
 
 		self.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {});
@@ -40,7 +41,11 @@ Module.register("MMM-Pomodoro", {
 	notificationReceived: function(notification, payload, sender) {
 		switch(notification) {
 			case "START_TIMER":
-			this.startTimer(payload.seconds, payload.type);
+			if (this.isVisible && this.nextType) {
+				this.agreeClicked(this.nextType);
+			} else {
+				this.startTimer(payload.seconds, payload.type);
+			}
 			break
 		case "INTERRUPT_POMODORO":
 			this.stopTimer();
@@ -85,6 +90,7 @@ Module.register("MMM-Pomodoro", {
 			this.displayMessageNoPopup('Yes', 'width-20', true, this.agreeClicked(payload.next_type));
 			this.displayMessageNoPopup('No', 'width-20', true, this.disagreeClicked);
 			self.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {});
+			this.nextType = payload.next_type;
 		} else if (notification === "MMM-Pomodoro-UPDATEDOM") {
 			this.dataNotification = payload;
 			this.updateDom();
@@ -155,6 +161,7 @@ Module.register("MMM-Pomodoro", {
 		document.body.removeChild(this.ntf);
 		this.isVisible = false;
 		this.firstMessage = true;
+		this.nextType = null;
 	},
 
 	displayMessagePopup: function(message) {
