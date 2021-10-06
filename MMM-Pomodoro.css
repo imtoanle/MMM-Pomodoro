@@ -274,7 +274,7 @@
 
 .pomodoro-section {
   position: relative;
-  top: 40% !important;
+  top: 30% !important;
 }
 
 .pomodoro-section .alert-box {
@@ -292,8 +292,7 @@
   left: 0;
   margin-right: auto;
   margin-left: auto;
-  top: calc(30% - 4rem);
-  width: 60%;
+  width: 40%;
   height: auto;
   word-wrap: break-word;
   border-radius: 20px;
