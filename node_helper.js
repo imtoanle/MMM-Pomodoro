@@ -93,11 +93,14 @@ module.exports = NodeHelper.create({
     }
   },
 
+  cycleByType: function(array, type) {
+    return array.filter( x => x.type == type );
+  },
   returnPayload: function() {
     let data = this.readData();
 
     return {
-      today_cycle: data.today.length,
+      today_cycle: cycleByType(data.today, "pomodoro"),
       next_type: this.detectNextCycleType()
     }
   },
