@@ -100,7 +100,7 @@ module.exports = NodeHelper.create({
     let data = this.readData();
 
     return {
-      today_cycle: cycleByType(data.today, "pomodoro"),
+      today_cycle: this.cycleByType(data.today, "pomodoro"),
       next_type: this.detectNextCycleType()
     }
   },
