@@ -29,10 +29,11 @@ module.exports = NodeHelper.create({
       this.sendSocketNotification("MMM-Pomodoro-SAVEDATA", this.returnPayload());
 		} else if (notification === "MMM-Pomodoro-UPDATEDOM") {
       let data = this.readData();
-      let lastCompleted = data.today.reverse()[0];
+      let todayCycles = this.cycleByType(data.today, "pomodoro")
+      let lastCompleted = todayCycles.reverse()[0];
 
       this.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {
-        todayPomodoro: this.cycleByType(data.today, "pomodoro").length,
+        todayPomodoro: todayCycles.length,
         lastCompleted: lastCompleted && (new Date(lastCompleted.time)).toLocaleString()
       });
     }
