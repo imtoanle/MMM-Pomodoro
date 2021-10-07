@@ -32,7 +32,7 @@ module.exports = NodeHelper.create({
       let lastCompleted = data.today.reverse()[0];
 
       this.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {
-        todayPomodoro: data.today.length,
+        todayPomodoro: this.cycleByType(data.today, "pomodoro").length,
         lastCompleted: lastCompleted && (new Date(lastCompleted.time)).toLocaleString()
       });
     }
@@ -100,7 +100,6 @@ module.exports = NodeHelper.create({
     let data = this.readData();
 
     return {
-      today_cycle: this.cycleByType(data.today, "pomodoro"),
       next_type: this.detectNextCycleType()
     }
   },
