@@ -29,7 +29,7 @@ module.exports = NodeHelper.create({
       this.sendSocketNotification("MMM-Pomodoro-SAVEDATA", this.returnPayload());
 		} else if (notification === "MMM-Pomodoro-UPDATEDOM") {
       let data = this.readData();
-      let todayCycles = this.cycleByType(data.today, "pomodoro")
+      let todayCycles = this.filterTodayPomodoro(this.cycleByType(data.today, "pomodoro"));
       let lastCompleted = todayCycles.reverse()[0];
 
       this.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {

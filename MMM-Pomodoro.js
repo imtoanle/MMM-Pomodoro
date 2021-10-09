@@ -39,6 +39,20 @@ Module.register("MMM-Pomodoro", {
 		this.firstMessage = true;
 
 		self.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {});
+
+		// Find 0am next day at miliseconds
+		let now = new Date();
+		let millisecondsToNextDay = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1, 0, 0, 0, 0) - now;
+
+		// Call once at 0am next day
+		setTimeout(function() {
+			self.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {});
+
+			// At 0am. Set Interval daily
+			setInterval(function() {
+				self.sendSocketNotification("MMM-Pomodoro-UPDATEDOM", {});
+			}, 24*3600*1000);
+		}, millisecondsToNextDay);
 	},
 
 	notificationReceived: function(notification, payload, sender) {
